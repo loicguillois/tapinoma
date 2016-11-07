@@ -1,0 +1,23 @@
+{
+  "name": "tapinoma",
+  "version": "0.0.1",
+  "description": "A complete node module for the ANT+ protocol",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:loicguillois/tapinoma.git"
+  },
+  "keywords": [
+    "ANT",
+    "ANT+",
+    "Garmin"
+  ],
+  "author": "Loïc Guillois",
+  "license": "GPL",
+  "dependencies": {
+    "usb": "^1.2.0"
+  }
+}
