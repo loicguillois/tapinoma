@@ -7,6 +7,8 @@ This is a node module for connecting to ANT+ capable devices through an USB ANT 
 
 See [http://www.thisisant.com/](http://www.thisisant.com/) for more informations regarding ANT+.
 
+This library works fine on my Debian PC but I will give a try on my Windows desktop and Macbook, RaspberryPI... I hope it will works also. The only requirement is to run the application as a root user.
+
 Requirements
 -------
 Node.js v6.9.1 LTS
@@ -19,12 +21,6 @@ Install
 ```
 npm install tapinoma
 ```
-
-
-Documentation
--------------
-Currently there is no documentation (sorry). The project is just beginning.
-
 
 Examples
 -------------
@@ -45,6 +41,8 @@ Sensor support
 | Sync                      |                     |     X    |                                        |
 
 This list is not exhaustive, please see for a detailled list of sensors supporting ANT+ [https://www.thisisant.com/developer/ant-plus/device-profiles/#529_tab](https://www.thisisant.com/developer/ant-plus/device-profiles/#529_tab)
+
+For the moment I use real hardware but I will try the ANT+ simulator in the future.
 
 If you want me to prioritize the implementation of a sensor, please create an issue. You can contribute as well by doing a Pull Request if you are a developer ;-)
 
