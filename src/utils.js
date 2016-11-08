@@ -1,11 +1,13 @@
-require('./constants');
+"use strict";
+
+var constants = require('./constants');
 
 var buildMessage = function(payload = [], msgID = 0x00) {
     let m = []
-    m.push(MESSAGE_TX_SYNC);
+    m.push(constants.MESSAGE_TX_SYNC);
     m.push(payload.length);
     m.push(msgID);
-    for(idex in payload) {
+    for(let idx in payload) {
       m.push(payload[idx]);
     }
     m.push(getChecksum(m));
@@ -39,8 +41,15 @@ var decimalToHex = function(d, numDigits) {
 }
 
 var getChecksum = function(message) {
-    for(idx in message) {
+    var checksum = 0;
+    for(let idx in message) {
       checksum = (checksum ^ message[idx]) % 0xFF;
     }
     return checksum;
+}
+
+module.exports = {
+    buildMessage : buildMessage,
+    intToLEHexArray : intToLEHexArray,
+    decimalToHex : decimalToHex
 }

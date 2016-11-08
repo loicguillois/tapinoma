@@ -1,14 +1,28 @@
 "use strict";
 
 var usb = require('usb');
+var messages = require('./messages');
+var constants = require('./constants');
 
 const GARMIN_ID = 0x0fcf;
 const GARMIN_STICK_2 = 0x1008;
 const GARMIN_STICK_3 = 0x1009;
 
-usb.setDebugLevel(4);
+//usb.setDebugLevel(4);
 
 var device = null;
+var outEndpoint = null;
+
+// TODO : affect real channel
+var channel = 0;
+
+var write = function(buffer) {
+    outEndpoint.transfer(buffer, function(err) {
+        if(err) {
+            console.log(err);
+        }
+    })
+}
 
 module.exports = {
     findAdapter: function () {
@@ -29,9 +43,34 @@ module.exports = {
 
         iface.claim();
         let InEndpoint = iface.endpoints[0];
+        outEndpoint = iface.endpoints[1];
 
-        InEndpoint.on('data', (d) => {
-            console.log("data=" + d);
+        InEndpoint.on('data', (data) => {
+            if(data.readUInt8(constants.BUFFER_INDEX_CHANNEL_NUM) != channel) {
+                return;
+            }
+
+            switch (data.readUInt8(constants.BUFFER_INDEX_MSG_TYPE)) {
+                case constants.MESSAGE_CHANNEL_BROADCAST_DATA:
+                case constants.MESSAGE_CHANNEL_ACKNOWLEDGED_DATA:
+                case constants.MESSAGE_CHANNEL_BURST_DATA:
+                    // send ACK
+                    write(messages.requestMessage(channel, constants.MESSAGE_CHANNEL_ID));
+
+                    // Get HeartRate
+                    var hrmPayload = data.slice(constants.BUFFER_INDEX_MSG_DATA + 4);
+                    var beatTime = hrmPayload.readUInt16LE(0);
+                    var beatCount = hrmPayload.readUInt8(2);
+                    var ComputedHeartRate = hrmPayload.readUInt8(3);
+            
+                    console.log(beatTime, beatCount, ComputedHeartRate);
+
+                case constants.MESSAGE_CHANNEL_ID:
+                    // TODO
+                    break;
+                default:
+                    break;
+            }
         })
 
         InEndpoint.on('error', (e) => {
@@ -43,5 +82,17 @@ module.exports = {
         })
 
         InEndpoint.startPoll();
+    },
+
+    attach: function (channel, type, deviceID, deviceType, transmissionType, timeout, period, frequency) {
+        write(messages.resetSystem());
+        write(messages.requestMessage(channel));
+        write(messages.setNetworkKey());
+        write(messages.assignChannel(channel, type));
+        write(messages.setDevice(channel, deviceID, deviceType, transmissionType));
+        write(messages.searchChannel(channel, timeout));
+        write(messages.setPeriod(channel, period));
+        write(messages.setFrequency(channel, frequency));
+        write(messages.openChannel(channel));
     }
 }
