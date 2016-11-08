@@ -12,21 +12,17 @@ if(device != undefined) {
     var channel = 0;
     var deviceID = 0;
 
-    // powermeter
-    //var deviceType = 11;
-    //driver.attach(channel, 'receive', deviceID, deviceType, 5, 255, 8182, 57);
+    /*driver.connect(driver.types.HEART_RATE, function(heartRate) {
+        console.log(heartRate + "bpm")
+    });*/
 
-    // heart : OK
-    //let deviceType = 120;
-    //driver.attach(channel, 'receive', deviceID, deviceType, 0, 255, 8070, 57);
+    driver.connect(driver.types.CADENCE, function(cadence) {
+        console.log(cadence + "rpm")
+    });
 
-    // cadence : OK TODO test with 8102 as frequency
-    //let deviceType = 122;
-    //driver.attach(channel, 'receive', deviceID, deviceType, 0, 255, 8086, 57);
-
-    // FE-C
-    var deviceType = 17;
-    driver.attach(channel, 'receive', deviceID, deviceType, 0, 255, 8182, 57);
+    /*driver.connect(driver.types.FEC, function(cadence, power) {
+        console.log(cadence + "rpm at " + power + "watts");
+    });*/
 } else {
     console.log("USB ANT+ ADAPTER NOT FOUND !");
 }

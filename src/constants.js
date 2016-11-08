@@ -1,6 +1,10 @@
 "use strict";
 
 module.exports = {
+    GARMIN_ID: 0x0fcf,
+    GARMIN_STICK_2: 0x1008,
+    GARMIN_STICK_3: 0x1009,
+
     MESSAGE_TX_SYNC: 0xA4,
     DEFAULT_NETWORK_NUMBER: 0x00,
 
