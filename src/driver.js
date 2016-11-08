@@ -55,7 +55,6 @@ module.exports = {
 
             switch (data.readUInt8(constants.BUFFER_INDEX_MSG_TYPE)) {
                 case constants.MESSAGE_CHANNEL_BROADCAST_DATA:
-                    //console.log('broadcast')
                 case constants.MESSAGE_CHANNEL_ACKNOWLEDGED_DATA:
                 case constants.MESSAGE_CHANNEL_BURST_DATA:
                     // send ACK
@@ -70,7 +69,7 @@ module.exports = {
                     console.log(beatTime, beatCount, ComputedHeartRate);*/
 
                     // Get cadence
-                    let cadenceTime = data.readUInt8(constants.BUFFER_INDEX_MSG_DATA + 4);
+                    /*let cadenceTime = data.readUInt8(constants.BUFFER_INDEX_MSG_DATA + 4);
                     cadenceTime |= data.readUInt8(constants.BUFFER_INDEX_MSG_DATA + 5) << 8;
 
                     let cadenceCount = data.readUInt8(constants.BUFFER_INDEX_MSG_DATA + 6);
@@ -90,7 +89,17 @@ module.exports = {
                     }
                     
                     oldCadenceCount = cadenceCount;
-                    oldCadenceTime = cadenceTime;
+                    oldCadenceTime = cadenceTime;*/
+                    
+
+                    var fecPayload = data.slice(constants.BUFFER_INDEX_MSG_DATA);
+                    // Specific Trainer Data
+                    if(fecPayload.readUInt8(0) === 0x19) {
+                        let cadence = fecPayload.readUInt8(2);
+                        let power = fecPayload.readUInt16LE(5);
+                        console.log(cadence + "rpm at " + power + "watts")
+                    }
+                    break;
                 case constants.MESSAGE_CHANNEL_ID:
                     break;
                 default:

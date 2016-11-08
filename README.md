@@ -33,15 +33,16 @@ Please, have a look to src/index.js
 Sensor support
 -------------
 
-|          Sensor           |      Supported      |  Planned |
-|---------------------------|:-------------------:|---------:|
-| Heart Rate Monitor        |          X          |          |
-| Bicycle Cadence           |          X          |          |
-| Bicycle Speed and Cadence |                     |     X    |
-| Bicycle Power             |                     |     X    |
-| Environment               |                     |     X    |
-| Weight Scale              |                     |     X    |
-| Sync                      |                     |     X    |
+|          Sensor           |      Supported      |  Planned |                Comment                 |
+|---------------------------|:-------------------:|---------:|---------------------------------------:|
+| Heart Rate Monitor        |          X          |          |                                        |
+| Bicycle Cadence           |          X          |          |                                        |
+| FE-C                      |          X          |          | only data reception for the moment     |
+| Bicycle Speed and Cadence |                     |     X    |                                        |
+| Bicycle Power             |                     |     X    |                                        |
+| Environment               |                     |     X    |                                        |
+| Weight Scale              |                     |     X    |                                        |
+| Sync                      |                     |     X    |                                        |
 
 This list is not exhaustive, please see for a detailled list of sensors supporting ANT+ [https://www.thisisant.com/developer/ant-plus/device-profiles/#529_tab](https://www.thisisant.com/developer/ant-plus/device-profiles/#529_tab)
 
