@@ -36,6 +36,7 @@ Sensor support
 |          Sensor           |      Supported      |  Planned |
 |---------------------------|:-------------------:|---------:|
 | Heart Rate Monitor        |          X          |          |
+| Bicycle Cadence           |          X          |          |
 | Bicycle Speed and Cadence |                     |     X    |
 | Bicycle Power             |                     |     X    |
 | Environment               |                     |     X    |

@@ -45,6 +45,9 @@ module.exports = {
         let InEndpoint = iface.endpoints[0];
         outEndpoint = iface.endpoints[1];
 
+        let oldCadenceCount = null;
+        let oldCadenceTime = null;
+
         InEndpoint.on('data', (data) => {
             if(data.readUInt8(constants.BUFFER_INDEX_CHANNEL_NUM) != channel) {
                 return;
@@ -52,21 +55,43 @@ module.exports = {
 
             switch (data.readUInt8(constants.BUFFER_INDEX_MSG_TYPE)) {
                 case constants.MESSAGE_CHANNEL_BROADCAST_DATA:
+                    //console.log('broadcast')
                 case constants.MESSAGE_CHANNEL_ACKNOWLEDGED_DATA:
                 case constants.MESSAGE_CHANNEL_BURST_DATA:
                     // send ACK
-                    write(messages.requestMessage(channel, constants.MESSAGE_CHANNEL_ID));
+                    //write(messages.requestMessage(channel, constants.MESSAGE_CHANNEL_ID));
 
                     // Get HeartRate
-                    var hrmPayload = data.slice(constants.BUFFER_INDEX_MSG_DATA + 4);
+                    /*var hrmPayload = data.slice(constants.BUFFER_INDEX_MSG_DATA + 4);
                     var beatTime = hrmPayload.readUInt16LE(0);
                     var beatCount = hrmPayload.readUInt8(2);
                     var ComputedHeartRate = hrmPayload.readUInt8(3);
-            
-                    console.log(beatTime, beatCount, ComputedHeartRate);
 
+                    console.log(beatTime, beatCount, ComputedHeartRate);*/
+
+                    // Get cadence
+                    let cadenceTime = data.readUInt8(constants.BUFFER_INDEX_MSG_DATA + 4);
+                    cadenceTime |= data.readUInt8(constants.BUFFER_INDEX_MSG_DATA + 5) << 8;
+
+                    let cadenceCount = data.readUInt8(constants.BUFFER_INDEX_MSG_DATA + 6);
+                    cadenceCount |= data.readUInt8(constants.BUFFER_INDEX_MSG_DATA + 7) << 8;
+
+                    if(oldCadenceCount != null) {
+                        if(oldCadenceTime > cadenceTime) {
+                            cadenceTime += (1024 * 64);
+                        }
+                        let diffCount = cadenceCount - oldCadenceCount;
+                        let diffTime = cadenceTime - oldCadenceTime;
+                        let rpm = 60 * diffCount / (diffTime / 1024);
+
+                        if(rpm) {
+                            console.log(rpm);
+                        }
+                    }
+                    
+                    oldCadenceCount = cadenceCount;
+                    oldCadenceTime = cadenceTime;
                 case constants.MESSAGE_CHANNEL_ID:
-                    // TODO
                     break;
                 default:
                     break;

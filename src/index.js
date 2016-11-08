@@ -17,8 +17,12 @@ if(device != undefined) {
     //driver.attach(channel, 'receive', deviceID, deviceType, 5, 255, 8182, 57);
 
     // heart
-    let deviceType = 120;
-    driver.attach(channel, 'receive', deviceID, deviceType, 0, 255, 8070, 57);
+    //let deviceType = 120;
+    //driver.attach(channel, 'receive', deviceID, deviceType, 0, 255, 8070, 57);
+
+    // cadence
+    let deviceType = 122;
+    driver.attach(channel, 'receive', deviceID, deviceType, 0, 255, 8086, 57);
 } else {
     console.log("USB ANT+ ADAPTER NOT FOUND !");
 }
