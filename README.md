@@ -28,8 +28,23 @@ Currently there is no documentation (sorry). The project is just beginning.
 
 Examples
 -------------
-See src/index.js
+Please, have a look to src/index.js
 
+Sensor support
+-------------
+
+|          Sensor           |      Supported      |  Planned |
+|---------------------------|:-------------------:|---------:|
+| Heart Rate Monitor        |          X          |          |
+| Bicycle Speed and Cadence |                     |     X    |
+| Bicycle Power             |                     |     X    |
+| Environment               |                     |     X    |
+| Weight Scale              |                     |     X    |
+| Sync                      |                     |     X    |
+
+This list is not exhaustive, please see for a detailled list of sensors supporting ANT+ [https://www.thisisant.com/developer/ant-plus/device-profiles/#529_tab](https://www.thisisant.com/developer/ant-plus/device-profiles/#529_tab)
+
+If you want me to prioritize the implementation of a sensor, please create an issue. You can contribute as well by doing a Pull Request if you are a developer ;-)
 
 License
 -------
